@@ -1,0 +1,7 @@
+# secrets (Telegram token, chat id, WhatsApp key)
+config.json
+# your portfolio snapshots and run log
+history.json
+tracker.log
+__pycache__/
+.DS_Store

@@ -1,0 +1,14 @@
+{
+  "profile": "@your-collectr-username",
+  "weekly_day": 6,
+  "telegram": {
+    "enabled": false,
+    "bot_token": "PASTE_TOKEN_FROM_BOTFATHER",
+    "chat_id": ""
+  },
+  "whatsapp": {
+    "enabled": false,
+    "phone": "+6512345678",
+    "apikey": "PASTE_KEY_FROM_CALLMEBOT"
+  }
+}
