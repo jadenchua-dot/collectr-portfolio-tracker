@@ -7,6 +7,34 @@ A Python bot that watches a Pokémon card collection on [Collectr](https://getco
 
 It reads your public Collectr showcase page, saves a snapshot each day in `history.json`, and works out the changes from those snapshots. It only uses the Python standard library and runs on a schedule with macOS `launchd`.
 
+[![Test](https://github.com/jadenchua-dot/collectr-portfolio-tracker/actions/workflows/test.yml/badge.svg)](https://github.com/jadenchua-dot/collectr-portfolio-tracker/actions/workflows/test.yml)
+
+## What the daily message looks like
+
+(Made-up cards and prices, produced by the same `daily_report()` the bot uses.)
+
+```text
+📊 Collectr daily update — 2026-11-15
+Portfolio value: $840.67
+Since 2026-11-14: +$8.67 (+1.04%)
+
+🚀 Top 3 gainers
+1. Charizard ex (Obsidian Flames · PSA 10)
+    $127.44  +6.20% (+$7.44)
+2. Pikachu (Celebrations · Near Mint)
+    $20.90  +4.50% (+$0.90)
+3. Umbreon VMAX (Evolving Skies · Near Mint)
+    $404.40  +1.10% (+$4.40)
+
+📉 Top 3 losers
+1. Mew ex (151 · Near Mint)
+    $28.23  -5.90% (-$1.77)
+2. Gengar (Fusion Strike · Near Mint)
+    $11.70  -2.50% (-$0.30)
+3. Booster Box (151 · Sealed)
+    $248.00  -0.80% (-$2.00)
+```
+
 ## 0. Setup
 ```
 cp config.example.json config.json
@@ -28,7 +56,7 @@ Set `profile` to your Collectr showcase username (e.g. `@yourname`). Your showca
 ## 3. Try it
 ```
 python3 tracker.py test              # sends a test message
-python3 tracker.py run --dry-run     # shows today's report without sending
+python3 tracker.py run --dry-run     # shows today's report without sending or saving a snapshot
 ```
 
 ## 4. Schedule it
@@ -43,3 +71,9 @@ The Mac has to be on (or wake up) for the job to run. If it's asleep at that tim
 - Movers come from the 30 most valuable items on your showcase (about 78% of the value). The portfolio total covers everything.
 - Day 1 uses Collectr's own price-change numbers. After that, changes are worked out from the snapshots saved in `history.json`.
 - `weekly_day` in `config.json`: 0 = Monday … 6 = Sunday.
+
+## Tests
+```
+python3 -m unittest discover -s tests -v
+```
+They cover the daily and weekly maths and check that `--dry-run` never writes `history.json`. No network calls are made.
