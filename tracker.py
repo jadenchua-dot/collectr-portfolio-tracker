@@ -291,15 +291,17 @@ def cmd_run(cfg, dry_run=False, force_weekly=False):
     weekday = int(cfg.get("weekly_day", 6))  # 0=Mon ... 6=Sun
     if force_weekly or dt.date.today().weekday() == weekday:
         deliver(cfg, weekly_report(total, items, history, today), dry_run)
-    history[today] = {"total": total, "items": items}
-    save_history(history)
+    if not dry_run:  # a preview must not change the saved snapshots
+        history[today] = {"total": total, "items": items}
+        save_history(history)
 
 
 def cmd_weekly(cfg, dry_run=False):
     total, items, history, today = snapshot(cfg)
     deliver(cfg, weekly_report(total, items, history, today), dry_run)
-    history[today] = {"total": total, "items": items}
-    save_history(history)
+    if not dry_run:
+        history[today] = {"total": total, "items": items}
+        save_history(history)
 
 
 def cmd_telegram_setup(cfg):
